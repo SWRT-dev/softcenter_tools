@@ -1,12 +1,8 @@
 #tools
 
-###node
-
-[pack app.js to one exe file](https://github.com/MerlinRdev/softcenter_node) 
-
 ###cross-compiling
 
-[gcc5.3.0 musl toolchain](https://github.com/MerlinRdev/build_platform) 
+[gcc5.3.0 musl toolchain](musl-cross) 
 
 ###auth-lite
 
