@@ -2,7 +2,13 @@
 
 ###cross-compiling
 
-[gcc5.3.0 musl toolchain](musl-cross) 
+[softcenter toolchains](musl-cross) 
+
+[firmware toolchains: bcmhnd](https://github.com/MerlinRdev/bcmhnd-toolchains) 
+
+[firmware toolchains: bcm470x](https://github.com/MerlinRdev/bcm-toolchains) 
+
+[firmware toolchains: qca](https://github.com/MerlinRdev/qca-toolchains) 
 
 ###auth-lite
 
