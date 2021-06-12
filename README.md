@@ -1,6 +1,6 @@
-#tools
+# tools
 
-###cross-compiling
+### cross-compiling
 
 [softcenter toolchains](musl-cross) 
 
@@ -10,15 +10,15 @@
 
 [firmware toolchains: qca](https://github.com/SWRT-dev/qca-toolchains) 
 
-###sc_auth
+### sc_auth
 
 [softcenter authentication static library](sc_auth) 
 
-###go
+### go
 
 gov1.15.0+
 
-###upx
+### upx
 
 [upx v3.95](https://github.com/SWRT-dev/upx_build) 
 
