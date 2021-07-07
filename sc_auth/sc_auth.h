@@ -1,5 +1,5 @@
 /*
- * Copyright 2021, SWRT
+ * Copyright 2021, SWRTdev
  * Copyright 2021, paldier <paldier@hotmail.com>.
  * Copyright 2021, lostlonger<lostlonger.g@gmail.com>.
  * All Rights Reserved.
@@ -158,6 +158,7 @@ enum {
 	MODEL_ETAXE96ET10,
 	MODEL_ET10,
 	MODEL_RMAC2100,
+	MODEL_R6800,
 	MODEL_MAX
 };
 
