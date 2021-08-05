@@ -168,4 +168,8 @@ extern int get_modelname(char *pid);
 extern char *get_modelnameid(int model);
 extern int is_asuswrt(char *pid);
 extern int is_swrt(char *pid);
+extern char *nvram_get(const char *name);
+extern int nvram_set(const char *name, const char *value);
+extern int nvram_unset(const char *name);
+extern int nvram_commit(void);
 #endif /* _sc_auth_h_ */
