@@ -2,7 +2,9 @@
 
 ### cross-compiling
 
-[softcenter toolchains](musl-cross) 
+[softcenter toolchains gcc5.3](musl-cross) 
+
+[softcenter toolchains gcc9.2](musl-cross-make) 
 
 [firmware toolchains: bcmhnd](https://github.com/SWRT-dev/bcmhnd-toolchains) 
 
