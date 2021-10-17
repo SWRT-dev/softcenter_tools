@@ -10,7 +10,8 @@ MPC_VER = 1.1.0
 MPFR_VER = 4.0.2
 LINUX_VER = headers-4.19.88
 
-GNU_SITE = https://ftp.gnu.org/pub/gnu
+#GNU_SITE = http://ftpmirror.gnu.org/gnu
+GNU_SITE = http://mirrors.aliyun.com/gnu
 GCC_SITE = $(GNU_SITE)/gcc
 BINUTILS_SITE = $(GNU_SITE)/binutils
 GMP_SITE = $(GNU_SITE)/gmp
@@ -18,10 +19,10 @@ MPC_SITE = $(GNU_SITE)/mpc
 MPFR_SITE = $(GNU_SITE)/mpfr
 ISL_SITE = http://isl.gforge.inria.fr/
 
-MUSL_SITE = https://www.musl-libc.org/releases
+MUSL_SITE = http://www.musl-libc.org/releases
 MUSL_REPO = git://git.musl-libc.org/musl
 
-LINUX_SITE = https://cdn.kernel.org/pub/linux/kernel
+LINUX_SITE = http://cdn.kernel.org/pub/linux/kernel
 LINUX_HEADERS_SITE = http://ftp.barfooze.de/pub/sabotage/tarballs/
 
 DL_CMD = wget -c -O

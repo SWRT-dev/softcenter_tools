@@ -16,14 +16,15 @@
 # TARGET = mips-linux-musl
 # TARGET = mipsel-linux-musl
 # TARGET = arm-linux-musleabi
- TARGET = aarch64-linux-musl
+ TARGET = arm-linux-musleabihf
+# TARGET = aarch64-linux-musl
 
 # By default, cross compilers are installed to ./output under the top-level
 # musl-cross-make directory and can later be moved wherever you want them.
 # To install directly to a specific location, set it here. Multiple targets
 # can safely be installed in the same location. Some examples:
 
- OUTPUT =$(shell pwd)/opt/cross/$(TARGET)
+ OUTPUT =$(shell pwd)/../opt/cross/$(TARGET)
 # OUTPUT = /usr/local
 
 # By default, latest supported release versions of musl and the toolchain
