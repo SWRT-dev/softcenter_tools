@@ -1,9 +1,10 @@
 #!/bin/bash
 
-ARCH=arm64
-#ARCH=arm
-#ARCH=mips
-#ARCH=mipsle
+ARCH=arm64 #bcm490x
+#ARCH=arm #bcm470x
+#ARCH=armng #bcm675x, ipq4/5/6/80xx, mt7622/3/9
+#ARCH=mips #grx500
+#ARCH=mipsle #mt7621
 PWD=$(pwd)
 #prefix asuswrt:/jffs/softcenter,openwrt:/usr
 
@@ -16,8 +17,17 @@ export CXX=$PWD/opt/cross/arm-linux-musleabi/bin/arm-linux-musleabi-g++
 export CORSS_PREFIX=$PWD/opt/cross/arm-linux-musleabi/bin/arm-linux-musleabi-
 export TARGET_CFLAGS=""
 export BOOST_ABI=sysv
+elif [ "$ARCH" = "armng" ];then
+#armv7l
+export CFLAGS="-I $PWD/opt/cross/arm-linux-musleabihf/arm-linux-musleabihf/include -Os -ffunction-sections -fdata-sections -mfpu=neon-vfpv4 -mfloat-abi=hard -ffast-math -fno-finite-math-only"
+export CXXFLAGS="-I $PWD/opt/cross/arm-linux-musleabihf/arm-linux-musleabihf/include"
+export CC=$PWD/opt/cross/arm-linux-musleabihf/bin/arm-linux-musleabihf-gcc
+export CXX=$PWD/opt/cross/arm-linux-musleabihf/bin/arm-linux-musleabihf-g++
+export CORSS_PREFIX=$PWD/opt/cross/arm-linux-musleabihf/bin/arm-linux-musleabihf-
+export TARGET_CFLAGS=""
+export BOOST_ABI=sysv
 elif [ "$ARCH" = "arm64" ];then
-export CFLAGS="-I $PWD/opt/cross/aarch64-linux-musl/aarch64-linux-musl/include -Os -ffunction-sections -fdata-sections"
+export CFLAGS="-I $PWD/opt/cross/aarch64-linux-musl/aarch64-linux-musl/include -Os -ffunction-sections -fdata-sections -ffast-math -fno-finite-math-only"
 export CXXFLAGS="-I $PWD/opt/cross/aarch64-linux-musl/aarch64-linux-musl/include"
 export CC=$PWD/opt/cross/aarch64-linux-musl/bin/aarch64-linux-musl-gcc
 export CXX=$PWD/opt/cross/aarch64-linux-musl/bin/aarch64-linux-musl-g++
@@ -53,18 +63,23 @@ LDFLAGS="-L$DEST/lib -Wl,--gc-sections"
 CPPFLAGS="-I$DEST/include"
 CXXFLAGS="$CXXFLAGS $CFLAGS"
 if [ "$ARCH" = "arm" ];then
-CONFIGURE="linux-armv4 -Os -static --prefix=/opt zlib --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include"
+CONFIGURE="linux-armv4 -Os -static --prefix=/opt zlib enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers"
+ARCHBUILD=arm
+elif [ "$ARCH" = "armng" ];then
+CONFIGURE="linux-armv4 -Os -static --prefix=/opt zlib enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers"
+ARCHBUILD=arm
 elif [ "$ARCH" = "arm64" ];then
-CONFIGURE="linux-aarch64 -Os -static --prefix=/opt zlib --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include"
+CONFIGURE="linux-aarch64 -Os -static --prefix=/opt zlib enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers"
+ARCHBUILD=aarch64
 elif [ "$ARCH" = "mips" ];then
-CONFIGURE="linux-mips32 -Os -static --prefix=/opt zlib --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include"
+CONFIGURE="linux-mips32 -Os -static --prefix=/opt zlib enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers"
+ARCHBUILD=mips
 elif [ "$ARCH" = "mipsle" ];then
-CONFIGURE="linux-mips32 -Os -static --prefix=/opt zlib --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include"
+CONFIGURE="linux-mips32 -Os -static --prefix=/opt zlib enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers"
+ARCHBUILD=mipsle
 fi
 MAKE="make"
 mkdir -p bin/$ARCH
-#$CC -static fuckax3600.c -o fuckax3600
-#${CORSS_PREFIX}strip fuckax3600
 
 ######## ####################################################################
 # ZLIB # ####################################################################
@@ -149,3 +164,12 @@ mkdir -p bin/$ARCH
 cp -rf $BASE/ZeroTierOne-1.4.6/zerotier-one bin/$ARCH/zerotier-one
 touch stamp-h1
 fi
+
+######## ####################################################################
+#SC_AUTH ####################################################################
+######## ####################################################################
+rm -rf sc_auth
+$CC -static $CFLAGS $LDFLAGS sc_auth.c ../sc_auth/$ARCH/sc_auth.a -o sc_auth
+${CORSS_PREFIX}strip sc_auth
+upx --lzma --best sc_auth
+cp -f sc_auth ../sc_auth/$ARCH/

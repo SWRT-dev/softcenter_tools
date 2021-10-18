@@ -56,4 +56,5 @@
 
 `${CORSS_PREFIX}gcc -static $CFLAGS $LDFLAGS demo.c /path/to/sc_auth/$ARCH/sc_auth.a -o demo`
 
+about CFLAGS, see[../sc.sh](../sc.sh) 
 
