@@ -36,7 +36,7 @@ export TARGET_CFLAGS=""
 export BOOST_ABI=aapcs
 elif [ "$ARCH" = "mips" ];then
 #mips
-export CFLAGS="-I $PWD/opt/cross/mips-linux-musl/mips-linux-musl/include -Os -ffunction-sections -fdata-sections -mno-branch-likely -mtune=1004kc -D_GNU_SOURCE -D_BSD_SOURCE -fPIE"
+export CFLAGS="-I $PWD/opt/cross/mips-linux-musl/mips-linux-musl/include -Os -ffunction-sections -fdata-sections -mno-branch-likely -mtune=1004kc -D_GNU_SOURCE -D_BSD_SOURCE -fPIE -mips32r2"
 export CXXFLAGS="-I $PWD/opt/cross/mips-linux-musl/mips-linux-musl/include"
 export CC=$PWD/opt/cross/mips-linux-musl/bin/mips-linux-musl-gcc
 export CXX=$PWD/opt/cross/mips-linux-musl/bin/mips-linux-musl-g++
@@ -45,7 +45,7 @@ export TARGET_CFLAGS=" -DBOOST_NO_FENV_H"
 export BOOST_ABI=o32
 export mipsarch=" architecture=mips32r2"
 elif [ "$ARCH" = "mipsle" ];then
-export CFLAGS="-I $PWD/opt/cross/mipsel-linux-musl/mipsel-linux-musl/include -Os -ffunction-sections -fdata-sections -D_GNU_SOURCE -D_BSD_SOURCE -fPIE"
+export CFLAGS="-I $PWD/opt/cross/mipsel-linux-musl/mipsel-linux-musl/include -Os -ffunction-sections -fdata-sections -D_GNU_SOURCE -D_BSD_SOURCE -fPIE -mips32r2"
 export CXXFLAGS="-I $PWD/opt/cross/mipsel-linux-musl/mipsel-linux-musl/include"
 export CC=$PWD/opt/cross/mipsel-linux-musl/bin/mipsel-linux-musl-gcc
 export CXX=$PWD/opt/cross/mipsel-linux-musl/bin/mipsel-linux-musl-g++
