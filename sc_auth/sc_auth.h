@@ -1,7 +1,7 @@
 /*
- * Copyright 2021, SWRTdev
- * Copyright 2021, paldier <paldier@hotmail.com>.
- * Copyright 2021, lostlonger<lostlonger.g@gmail.com>.
+ * Copyright 2021-2022, SWRTdev
+ * Copyright 2021-2022, paldier <paldier@hotmail.com>.
+ * Copyright 2021-2022, lostlonger<lostlonger.g@gmail.com>.
  * All Rights Reserved.
  */
 
@@ -13,29 +13,47 @@ struct model_s {
 	int model;
 };
 
+struct vendors_s {
+	int model;
+};
+
 enum {
-	MODEL_SWRTMIN = 0,
-	MODEL_K3,
-	MODEL_XWR3100,
-	MODEL_R7000P,
-	MODEL_EA6700,
-	MODEL_SBRAC1900P,
-	MODEL_F9K1118,
-	MODEL_SBRAC3200P,
-	MODEL_R8500,
-	MODEL_R8000P,
-	MODEL_K3C,
-	MODEL_TY6201_RTK,
-	MODEL_TY6201_BCM,
-	MODEL_RAX120,
-	MODEL_DIR868L,
-	MODEL_R6300V2,
-	MODEL_MR62,
-	MODEL_RAX70,
-	MODEL_360V6,
-	MODEL_GLAX1800,
-	//MODEL_RMAC2100,move to model_list
-	MODEL_SWRTMAX
+	SOC_BCM = 1,
+	SOC_QCA,
+	SOC_MTK,
+	SOC_LANTIQ,
+	SOC_X86
+};
+
+enum {
+	SWRT_MODEL_SWRTMIN = 0,
+	SWRT_MODEL_K3,
+	SWRT_MODEL_XWR3100,
+	SWRT_MODEL_R7000P,
+	SWRT_MODEL_EA6700,
+	SWRT_MODEL_SBRAC1900P,
+	SWRT_MODEL_F9K1118,
+	SWRT_MODEL_SBRAC3200P,
+	SWRT_MODEL_R8500,
+	SWRT_MODEL_R8000P,
+	SWRT_MODEL_K3C,
+	SWRT_MODEL_TY6201_RTK,
+	SWRT_MODEL_TY6201_BCM,
+	SWRT_MODEL_RAX120,
+	SWRT_MODEL_DIR868L,
+	SWRT_MODEL_R6300V2,
+	SWRT_MODEL_RAX70,
+	SWRT_MODEL_360V6,
+	SWRT_MODEL_GLAX1800,
+	SWRT_MODEL_RMAC2100,
+	SWRT_MODEL_R6800,
+	SWRT_MODEL_TY6202,
+	SWRT_MODEL_MR60,
+	SWRT_MODEL_MS60,
+	SWRT_MODEL_PGBM1,
+	SWRT_MODEL_JCGQ10PRO,
+	SWRT_MODEL_H3CTX1801,
+	SWRT_MODEL_SWRTMAX
 };
 
 enum {
@@ -174,6 +192,9 @@ enum {
 	MODEL_XT8PRO,
 	MODEL_RMAC2100,
 	MODEL_R6800,
+	MODEL_PGBM1,
+	MODEL_JCGQ10PRO,
+	MODEL_H3CTX1801,
 	MODEL_MAX
 };
 
@@ -187,4 +208,11 @@ extern char *nvram_get(const char *name);
 extern int nvram_set(const char *name, const char *value);
 extern int nvram_unset(const char *name);
 extern int nvram_commit(void);
+extern int f_exists(const char *path);
+extern int d_exists(const char *path);
+extern unsigned long f_size(const char *path);
+extern int pidof(const char *name);
+extern void killall_tk(const char *name);
+extern int ether_atoe(const char *a, unsigned char *e);
+extern int get_socvendors(void);
 #endif /* _sc_auth_h_ */
