@@ -18,7 +18,8 @@ struct vendors_s {
 };
 
 enum {
-	SOC_BCM = 1,
+	SOC_BCM470X = 1,
+	SOC_BCMHND,
 	SOC_QCA,
 	SOC_MTK,
 	SOC_LANTIQ,
@@ -53,6 +54,8 @@ enum {
 	SWRT_MODEL_PGBM1,
 	SWRT_MODEL_JCGQ10PRO,
 	SWRT_MODEL_H3CTX1801,
+	SWRT_MODEL_TYAX5400,
+	SWRT_MODEL_JDCAX1800,
 	SWRT_MODEL_SWRTMAX
 };
 
@@ -159,7 +162,6 @@ enum {
 	MODEL_RTAX92U,
 	MODEL_RTAX95Q,
 	MODEL_RTAXE95Q,
-	MODEL_ET8PRO,
 	MODEL_RTAX56_XD4,
 	MODEL_RTAX58U,
 	MODEL_RTAX56U,
@@ -179,7 +181,6 @@ enum {
 	MODEL_CTAX56_XD4,
 	MODEL_RTAC68U_V4,
 	MODEL_GTAX11000_PRO,
-	MODEL_GTAXE16000,
 	MODEL_ET12,
 	MODEL_XT12,
 	MODEL_ETJ,
@@ -190,6 +191,20 @@ enum {
 	MODEL_GTAX6000,
 	MODEL_XD4PRO,
 	MODEL_XT8PRO,
+	MODEL_RTAX86U_PRO,
+	MODEL_TUFAX3000_V2,
+	MODEL_RTAX82_XD6S,
+	MODEL_RPAX58,
+	MODEL_ET8PRO,
+	MODEL_GTAXE16000,
+	MODEL_RTAXE7800,
+	MODEL_RTAX57Q,
+	MODEL_XT8_V2,
+	MODEL_RTAX54,
+	MODEL_XD4S,
+	MODEL_GT10,
+	MODEL_RTAX3000N,
+	MODEL_RTAX82U_V2,
 	MODEL_RMAC2100,
 	MODEL_R6800,
 	MODEL_PGBM1,
@@ -215,4 +230,5 @@ extern int pidof(const char *name);
 extern void killall_tk(const char *name);
 extern int ether_atoe(const char *a, unsigned char *e);
 extern int get_socvendors(void);
+extern int RCisSupport(const char *name);
 #endif /* _sc_auth_h_ */
