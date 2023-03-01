@@ -2,9 +2,7 @@
 
 ### cross-compiling
 
-[softcenter toolchains gcc5.3](musl-cross) 
-
-[softcenter toolchains gcc9.2](musl-cross-make) 
+[softcenter toolchains](musl-cross-make) 
 
 [firmware toolchains: bcmhnd](https://github.com/SWRT-dev/bcmhnd-toolchains) 
 
@@ -20,7 +18,7 @@
 
 ### go
 
-gov1.15.0+
+gov1.19.0+
 
 ### upx
 

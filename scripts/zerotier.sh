@@ -1,13 +1,15 @@
 #!/bin/bash
+set -e
+set -x
 
 #ARCH=arm64
 #ARCH=arm
 #ARCH=armng
 #ARCH=mips
 #ARCH=mipsle
-for ARCH in mips mipsle armng arm arm64
+PWD=`pwd`
+for ARCH in arm64 arm armng mips mipsle
 do
-PWD=$(pwd)
 #prefix asuswrt:/jffs/softcenter,openwrt:/usr
 if [ "$ARCH" = "arm" ];then
 #armv7l
@@ -56,29 +58,51 @@ export TARGET_CFLAGS=" -DNDEBUG -DBOOST_NO_FENV_H -DBOOST_DISABLE_ASSERTS"
 export BOOST_ABI=o32
 export mipsarch=" architecture=mips32r2"
 fi
-export AR=${CORSS_PREFIX}ar
 
 BASE=`pwd`
 SRC=$BASE/src
 WGET="wget --prefer-family=IPv4"
 DEST=$BASE/opt
-LDFLAGS="-L$DEST/lib -Wl,--gc-sections"
-CPPFLAGS="-I$DEST/include"
-CXXFLAGS="$CXXFLAGS $CFLAGS"
+export CPPFLAGS="-I$DEST/include"
+export CXXFLAGS="$CXXFLAGS $CFLAGS"
+export LDFLAGS="-L$DEST/lib -Wl,--gc-sections -Wl,-rpath,/jffs/softcenter/lib"
+# enable-engine disable-dynamic-engine enable-devcryptoeng
+if [ "$ARCH" = "arm" ];then
+CONFIGURE="linux-armv4 -static --prefix=/jffs/softcenter zlib enable-rc5 enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers no-ssl2 no-gost no-heartbeats no-err no-unit-test no-aria no-sm2 no-sm3 no-sm4 no-tests no-shared no-afalgeng no-async"
+ARCHBUILD=arm
+elif [ "$ARCH" = "armng" ];then
+CONFIGURE="linux-armv4 -static --prefix=/jffs/softcenter zlib enable-rc5 enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers no-ssl2 no-gost no-heartbeats no-err no-unit-test no-aria no-sm2 no-sm3 no-sm4 no-tests no-shared no-afalgeng no-async"
+ARCHBUILD=arm
+elif [ "$ARCH" = "arm64" ];then
+CONFIGURE="linux-aarch64 -static --prefix=/jffs/softcenter zlib enable-rc5 enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers no-ssl2 no-gost no-heartbeats no-err no-unit-test no-aria no-sm2 no-sm3 no-sm4 no-tests no-shared no-afalgeng no-async"
+ARCHBUILD=aarch64
+elif [ "$ARCH" = "mips" ];then
+CONFIGURE="linux-mips32 -static --prefix=/jffs/softcenter zlib enable-rc5 enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers no-ssl2 no-gost no-heartbeats no-err no-unit-test no-aria no-sm2 no-sm3 no-sm4 no-tests no-shared no-afalgeng no-async"
+ARCHBUILD=mips
+elif [ "$ARCH" = "mipsle" ];then
+CONFIGURE="linux-mips32 -static --prefix=/jffs/softcenter zlib enable-rc5 enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers no-ssl2 no-gost no-heartbeats no-err no-unit-test no-aria no-sm2 no-sm3 no-sm4 no-tests no-shared no-afalgeng no-async"
+ARCHBUILD=mipsle
+fi
+MAKE="make -j4"
+
+mkdir -p bin/$ARCH
+#$CC -static fuckax3600.c -o fuckax3600
+#${CORSS_PREFIX}strip fuckax3600
 
 ########### #################################################################
-##json-c ## #################################################################
+#ZeroTier## #################################################################
 ########### #################################################################
 cd $BASE
-[ ! -d "vlmcsd-svn1113" ] && unzip vlmcsd-svn1113.zip -d vlmcsd-svn1113
-cd $BASE/vlmcsd-svn1113/vlmcsd-svn1113
+[ ! -d "ZeroTierOne-1.10.2" ] && tar zxvf ZeroTierOne-1.10.2.tar.gz
+cd $BASE/ZeroTierOne-1.10.2
 
-MAKE="make" 
-export CFLAGS="$CFLAGS -static"
-export LDFLAGS="$LDFLAGS -static"
-$MAKE all
+CC=${CORSS_PREFIX}gcc \
+STRIP=${CORSS_PREFIX}strip \
+ZT_STATIC=1 \
+make
 cd $BASE
 mkdir -p bin/$ARCH
-cp -rf $BASE/vlmcsd-svn1113/vlmcsd-svn1113/bin/vlmcsd bin/$ARCH
-rm -rf $BASE/vlmcsd-svn1113
+${CORSS_PREFIX}strip $BASE/ZeroTierOne-1.10.2/zerotier-one
+cp -rf $BASE/ZeroTierOne-1.10.2/zerotier-one bin/$ARCH/zerotier-one
+rm -rf ZeroTierOne-1.10.2
 done

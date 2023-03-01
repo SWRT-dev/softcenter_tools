@@ -3,15 +3,14 @@ SOURCES = sources
 
 CONFIG_SUB_REV = 3d5db9ebe860
 BINUTILS_VER = 2.33.1
-GCC_VER = 9.2.0
-MUSL_VER = 1.2.1
+GCC_VER = 10.3.0
+MUSL_VER = 1.2.3
 GMP_VER = 6.1.2
 MPC_VER = 1.1.0
 MPFR_VER = 4.0.2
-LINUX_VER = headers-4.19.88
+LINUX_VER = headers-4.19.88-1
 
-#GNU_SITE = http://ftpmirror.gnu.org/gnu
-GNU_SITE = http://mirrors.aliyun.com/gnu
+GNU_SITE = https://ftpmirror.gnu.org/gnu
 GCC_SITE = $(GNU_SITE)/gcc
 BINUTILS_SITE = $(GNU_SITE)/binutils
 GMP_SITE = $(GNU_SITE)/gmp
@@ -19,10 +18,10 @@ MPC_SITE = $(GNU_SITE)/mpc
 MPFR_SITE = $(GNU_SITE)/mpfr
 ISL_SITE = http://isl.gforge.inria.fr/
 
-MUSL_SITE = http://www.musl-libc.org/releases
+MUSL_SITE = https://musl.libc.org/releases
 MUSL_REPO = git://git.musl-libc.org/musl
 
-LINUX_SITE = http://cdn.kernel.org/pub/linux/kernel
+LINUX_SITE = https://cdn.kernel.org/pub/linux/kernel
 LINUX_HEADERS_SITE = http://ftp.barfooze.de/pub/sabotage/tarballs/
 
 DL_CMD = wget -c -O

@@ -1,13 +1,15 @@
 #!/bin/bash
 
+set -e
+set -x
+
 #ARCH=arm64
 #ARCH=arm
-#ARCH=armng
 #ARCH=mips
 #ARCH=mipsle
-for ARCH in mips mipsle armng arm arm64
+for ARCH in arm armng arm64 mips mipsle
 do
-PWD=$(pwd)
+PWD=`pwd`
 #prefix asuswrt:/jffs/softcenter,openwrt:/usr
 if [ "$ARCH" = "arm" ];then
 #armv7l
@@ -56,7 +58,6 @@ export TARGET_CFLAGS=" -DNDEBUG -DBOOST_NO_FENV_H -DBOOST_DISABLE_ASSERTS"
 export BOOST_ABI=o32
 export mipsarch=" architecture=mips32r2"
 fi
-export AR=${CORSS_PREFIX}ar
 
 BASE=`pwd`
 SRC=$BASE/src
@@ -65,20 +66,29 @@ DEST=$BASE/opt
 LDFLAGS="-L$DEST/lib -Wl,--gc-sections"
 CPPFLAGS="-I$DEST/include"
 CXXFLAGS="$CXXFLAGS $CFLAGS"
+if [ "$ARCH" = "arm" ];then
+CONFIGURE="linux-armv4 -Os -static --prefix=/opt zlib enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers"
+ARCHBUILD=arm
+elif [ "$ARCH" = "armng" ];then
+CONFIGURE="linux-armv4 -Os -static --prefix=/opt zlib enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers"
+ARCHBUILD=arm
+elif [ "$ARCH" = "arm64" ];then
+CONFIGURE="linux-aarch64 -Os -static --prefix=/opt zlib enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers"
+ARCHBUILD=aarch64
+elif [ "$ARCH" = "mips" ];then
+CONFIGURE="linux-mips32 -Os -static --prefix=/opt zlib enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers"
+ARCHBUILD=mips
+elif [ "$ARCH" = "mipsle" ];then
+CONFIGURE="linux-mips32 -Os -static --prefix=/opt zlib enable-ssl3 enable-ssl3-method enable-tls1_3 --with-zlib-lib=$DEST/lib --with-zlib-include=$DEST/include -DOPENSSL_PREFER_CHACHA_OVER_GCM enable-weak-ssl-ciphers"
+ARCHBUILD=mipsle
+fi
+MAKE="make"
 
-########### #################################################################
-##json-c ## #################################################################
-########### #################################################################
-cd $BASE
-[ ! -d "vlmcsd-svn1113" ] && unzip vlmcsd-svn1113.zip -d vlmcsd-svn1113
-cd $BASE/vlmcsd-svn1113/vlmcsd-svn1113
-
-MAKE="make" 
-export CFLAGS="$CFLAGS -static"
-export LDFLAGS="$LDFLAGS -static"
-$MAKE all
-cd $BASE
-mkdir -p bin/$ARCH
-cp -rf $BASE/vlmcsd-svn1113/vlmcsd-svn1113/bin/vlmcsd bin/$ARCH
-rm -rf $BASE/vlmcsd-svn1113
+######## ####################################################################
+# ZLIB # ####################################################################
+######## ####################################################################
+$CC $CFLAGS $LDFLAGS -c sc_authlib.c
+${CORSS_PREFIX}ar rcs sc_auth.a sc_authlib.o
+cp -f sc_auth.a scauth/$ARCH/
+rm -rf sc_auth.a sc_authlib.o
 done

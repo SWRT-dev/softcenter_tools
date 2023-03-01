@@ -13,11 +13,12 @@
 # TARGET = arm-linux-musleabihf
 # TARGET = sh2eb-linux-muslfdpic
 # ...
-# TARGET = mips-linux-musl
+ TARGET = mips-linux-musl
 # TARGET = mipsel-linux-musl
 # TARGET = arm-linux-musleabi
- TARGET = arm-linux-musleabihf
+# TARGET = arm-linux-musleabihf
 # TARGET = aarch64-linux-musl
+# TARGET = x86_64-linux-musl
 
 # By default, cross compilers are installed to ./output under the top-level
 # musl-cross-make directory and can later be moved wherever you want them.
