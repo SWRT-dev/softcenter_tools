@@ -32,6 +32,7 @@ static const struct vendors_s netgear_list[] = {
 static const struct vendors_s xiaomi_list[] = {
 	{ SWRT_MODEL_RMAC2100 		},
 	{ SWRT_MODEL_RMAX6000 		},
+	{ SWRT_MODEL_XMCR660X 		},
 	{ SWRT_MODEL_SWRTMIN 		},
 };
 
@@ -79,7 +80,7 @@ static const struct vendors_s h3c_list[] = {
 static const struct vendors_s rg_list[] = {
 	{ SWRT_MODEL_RGMA2820A 		},
 	{ SWRT_MODEL_RGMA2820B 		},
-	{ SWRT_MODEL_RGMA3032 		},
+	{ SWRT_MODEL_RGMA3062 		},
 	{ SWRT_MODEL_SWRTMIN 		},
 };
 
@@ -178,6 +179,7 @@ static int get_arch(void)
 int main(int argc, char **argv)
 {
 	FILE *fp;
+	int modelid = MODEL_UNKNOWN;
 	char buf[50];
 	char modelname[16];
 	char cmd[40];
@@ -195,8 +197,9 @@ int main(int argc, char **argv)
 		if (!strcmp(argv[1], "firmware")) {
 			snprintf(modelname, sizeof(modelname), "%s", nvram_get("modelname"));
 			snprintf(cmd, sizeof(cmd), "%s", nvram_get("productid"));
-			if(is_swrt(modelname))
-				printf("This is %s router, model:%s\n", print_vendors(modelname), modelname);
+			modelid = get_modelname(modelname);
+			if(modelid != MODEL_UNKNOWN && is_swrt(modelname))
+				printf("This is %s router, model:%s\n", print_vendors(modelname), get_modelnameid(modelid));
 			else if(is_asuswrt(cmd))
 				printf("This is ASUS router, model:%s\n", cmd);
 			else

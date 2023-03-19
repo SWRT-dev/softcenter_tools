@@ -87,9 +87,9 @@ MAKE="make"
 ######## ####################################################################
 # ZLIB # ####################################################################
 ######## ####################################################################
-rm -rf sc_auth
 $CC -static $CFLAGS $LDFLAGS sc_auth.c scauth/$ARCH/sc_auth.a -o sc_auth
 ${CORSS_PREFIX}strip sc_auth
 upx --lzma --best sc_auth
 cp -f sc_auth scauth/$ARCH/
+rm -rf sc_auth
 done
