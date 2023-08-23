@@ -69,6 +69,7 @@ static const struct vendors_s tianyi_list[] = {
 
 static const struct vendors_s jcg_list[] = {
 	{ SWRT_MODEL_JCGQ10PRO 		},
+	{ SWRT_MODEL_JCGQ20 		},
 	{ SWRT_MODEL_SWRTMIN 		},
 };
 
@@ -83,6 +84,13 @@ static const struct vendors_s rg_list[] = {
 	{ SWRT_MODEL_RGMA3062 		},
 	{ SWRT_MODEL_SWRTMIN 		},
 };
+
+static const struct vendors_s qihoo_list[] = {
+	{ SWRT_MODEL_360V6 			},
+	{ SWRT_MODEL_360T7 			},
+	{ SWRT_MODEL_SWRTMIN 		},
+};
+
 
 static int show_help(void)
 {
@@ -143,6 +151,10 @@ static char *print_vendors(char *pid)
 	for (p = &h3c_list[0]; p->model; ++p) {
 		if (model == p->model)
 			return "H3C";
+	}
+	for (p = &qihoo_list[0]; p->model; ++p) {
+		if (model == p->model)
+			return "360";
 	}
 	return "Unknown";
 }
