@@ -26,6 +26,7 @@ static const struct vendors_s netgear_list[] = {
 	{ SWRT_MODEL_MR60 			},
 	{ SWRT_MODEL_MS60 			},
 	{ SWRT_MODEL_RAX200 		},
+	{ SWRT_MODEL_RAX80 			},
 	{ SWRT_MODEL_SWRTMIN 		},
 };
 
@@ -226,18 +227,18 @@ int main(int argc, char **argv)
 			snprintf(buf, sizeof(buf), "%s", nvram_get("productid"));
 			snprintf(modelname, sizeof(modelname), "%s", nvram_get("modelname"));
 			snprintf(tcode, sizeof(tcode), "%s", nvram_get("territory_code"));
-			if(*tcode)
+			if(tcode[0])
 				tcode[2] = 0x0;
 			else
 				snprintf(tcode, sizeof(tcode), "GB");
 			snprintf(cmd, sizeof(cmd), "dbus set softcenter_server_tcode=%s", tcode);
 			if(!strlen(buf) || !is_asuswrt(buf)){
 #if defined(SC_AUTH_DEBUG)
-				printf("dbus set softcenter_server_tcode=GB\n");
+				printf("dbus set softcenter_server_tcode=NO\n");
 #else
-				system("dbus set softcenter_server_tcode=GB");
+				system("dbus set softcenter_server_tcode=NO");
 #endif
-				printf("This device is not asus or swrt model.\n");
+				printf("This device is not supported. see https://blog.paldier.com/categories/firmware/\n");
 			}else if(is_swrt(modelname)){
 				switch (get_modelname(modelname)){
 				case SWRT_MODEL_R7000P:
