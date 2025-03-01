@@ -1,6 +1,6 @@
 /*
- * Copyright 2021-2023, SWRTdev
- * Copyright 2021-2023, paldier <paldier@hotmail.com>.
+ * Copyright 2021-2025, SWRTdev
+ * Copyright 2021-2025, paldier <paldier@hotmail.com>.
  * All Rights Reserved.
  */
 
@@ -14,84 +14,6 @@
 #include "sc_auth.h"
 
 //#define SC_AUTH_DEBUG
-
-static const struct vendors_s netgear_list[] = {
-	{ SWRT_MODEL_R6300V2 		},
-	{ SWRT_MODEL_R6800			},
-	{ SWRT_MODEL_R7000P 		},
-	{ SWRT_MODEL_R8500 			},
-	{ SWRT_MODEL_R8000P 		},
-	{ SWRT_MODEL_RAX70 			},
-	{ SWRT_MODEL_RAX120 		},
-	{ SWRT_MODEL_MR60 			},
-	{ SWRT_MODEL_MS60 			},
-	{ SWRT_MODEL_RAX200 		},
-	{ SWRT_MODEL_RAX80 			},
-	{ SWRT_MODEL_SWRTMIN 		},
-};
-
-static const struct vendors_s xiaomi_list[] = {
-	{ SWRT_MODEL_RMAC2100 		},
-	{ SWRT_MODEL_RMAX6000 		},
-	{ SWRT_MODEL_XMCR660X 		},
-	{ SWRT_MODEL_SWRTMIN 		},
-};
-
-static const struct vendors_s phicomm_list[] = {
-	{ SWRT_MODEL_K3 			},
-	{ SWRT_MODEL_K3C 			},
-	{ SWRT_MODEL_SWRTMIN 		},
-};
-
-static const struct vendors_s dlink_list[] = {
-	{ SWRT_MODEL_DIR868L 		},
-	{ SWRT_MODEL_SWRTMIN 		},
-};
-
-static const struct vendors_s arris_list[] = {
-	{ SWRT_MODEL_SBRAC1900P 	},
-	{ SWRT_MODEL_SBRAC3200P 	},
-	{ SWRT_MODEL_SWRTMIN 		},
-};
-
-static const struct vendors_s linksys_list[] = {
-	{ SWRT_MODEL_EA6700 		},
-	{ SWRT_MODEL_SWRTMIN 		},
-};
-
-static const struct vendors_s tianyi_list[] = {
-	{ SWRT_MODEL_TY6202 		},
-	{ SWRT_MODEL_TY6201_RTK 	},
-	{ SWRT_MODEL_TY6201_BCM 	},
-	{ SWRT_MODEL_TYAX5400 		},
-	{ SWRT_MODEL_TY6201PRO 		},
-	{ SWRT_MODEL_SWRTMIN 		},
-};
-
-static const struct vendors_s jcg_list[] = {
-	{ SWRT_MODEL_JCGQ10PRO 		},
-	{ SWRT_MODEL_JCGQ20 		},
-	{ SWRT_MODEL_SWRTMIN 		},
-};
-
-static const struct vendors_s h3c_list[] = {
-	{ SWRT_MODEL_H3CTX1801 		},
-	{ SWRT_MODEL_SWRTMIN 		},
-};
-
-static const struct vendors_s rg_list[] = {
-	{ SWRT_MODEL_RGMA2820A 		},
-	{ SWRT_MODEL_RGMA2820B 		},
-	{ SWRT_MODEL_RGMA3062 		},
-	{ SWRT_MODEL_SWRTMIN 		},
-};
-
-static const struct vendors_s qihoo_list[] = {
-	{ SWRT_MODEL_360V6 			},
-	{ SWRT_MODEL_360T7 			},
-	{ SWRT_MODEL_SWRTMIN 		},
-};
-
 
 static int show_help(void)
 {
@@ -110,54 +32,59 @@ static int show_help(void)
 static char *print_vendors(char *pid)
 {
 	int model = get_modelname(pid);
-	const struct vendors_s *p;
 
-	for (p = &netgear_list[0]; p->model; ++p) {
-		if (model == p->model)
+	switch(model){
+		case SWRT_MODEL_R6300V2:
+		case SWRT_MODEL_R6800:
+		case SWRT_MODEL_R7000P:
+		case SWRT_MODEL_R8500:
+		case SWRT_MODEL_R8000P:
+		case SWRT_MODEL_RAX70:
+		case SWRT_MODEL_RAX80:
+		case SWRT_MODEL_RAX120:
+		case SWRT_MODEL_RAX200:
+		case SWRT_MODEL_MR60:
+		case SWRT_MODEL_MS60:
 			return "Netgear";
-	}
-	for (p = &xiaomi_list[0]; p->model; ++p) {
-		if (model == p->model)
+		case SWRT_MODEL_RMAC2100:
+		case SWRT_MODEL_RMAX6000:
+		case SWRT_MODEL_XMCR660X:
 			return "Xiaomi";
-	}
-	for (p = &phicomm_list[0]; p->model; ++p) {
-		if (model == p->model)
+		case SWRT_MODEL_K3:
+		case SWRT_MODEL_K3C:
 			return "Phicomm";
-	}
-	for (p = &dlink_list[0]; p->model; ++p) {
-		if (model == p->model)
+		case SWRT_MODEL_DIR868L:
 			return "Dlink";
-	}
-	for (p = &arris_list[0]; p->model; ++p) {
-		if (model == p->model)
+		case SWRT_MODEL_SBRAC1900P:
+		case SWRT_MODEL_SBRAC3200P:
 			return "Arris";
-	}
-	for (p = &linksys_list[0]; p->model; ++p) {
-		if (model == p->model)
+		case SWRT_MODEL_EA6700:
 			return "Linksys";
-	}
-	for (p = &tianyi_list[0]; p->model; ++p) {
-		if (model == p->model)
+		case SWRT_MODEL_TY6202:
+		case SWRT_MODEL_TY6201_RTK:
+		case SWRT_MODEL_TY6201_BCM:
+		case SWRT_MODEL_TYAX5400:
+		case SWRT_MODEL_TY6201PRO:
 			return "Tianyi";
-	}
-	for (p = &rg_list[0]; p->model; ++p) {
-		if (model == p->model)
+		case SWRT_MODEL_RGMA2820A:
+		case SWRT_MODEL_RGMA2820B:
+		case SWRT_MODEL_RGMA3062:
 			return "Ruijie";
-	}
-	for (p = &jcg_list[0]; p->model; ++p) {
-		if (model == p->model)
+		case SWRT_MODEL_JCGQ10PRO:
+		case SWRT_MODEL_JCGQ20:
 			return "JCG";
-	}
-
-	for (p = &h3c_list[0]; p->model; ++p) {
-		if (model == p->model)
+		case SWRT_MODEL_H3CTX1801:
 			return "H3C";
-	}
-	for (p = &qihoo_list[0]; p->model; ++p) {
-		if (model == p->model)
+		case SWRT_MODEL_360V6:
+		case SWRT_MODEL_360T7:
 			return "360";
+		case SWRT_MODEL_JDCAX1800:
+		case SWRT_MODEL_JDCAX3000:
+		case SWRT_MODEL_JDCBE6500:
+			return "JDCloud";
+		default:
+			return "Unknown";
 	}
-	return "Unknown";
 }
 
 static int get_arch(void)
@@ -168,15 +95,17 @@ static int get_arch(void)
 	if(uname(&uts) == 0){
 		if(!strcmp(uts.machine, "armv7l")){
 			if(get_socvendors() == SOC_BCM470X)
-				snprintf(buf, sizeof(buf), "dbus set softcenter_arch=armv7l");
+				snprintf(buf, sizeof(buf), "dbus set softcenter_arch=%s", "arm");
 			else
-				snprintf(buf, sizeof(buf), "dbus set softcenter_arch=armng");
-		} else if(!strcmp(uts.machine, "mips")){
+				snprintf(buf, sizeof(buf), "dbus set softcenter_arch=%s", "armng");
+		}else if(!strcmp(uts.machine, "mips")){
 			if(get_socvendors() == SOC_MTK)
-				snprintf(buf, sizeof(buf), "dbus set softcenter_arch=mipsle");
+				snprintf(buf, sizeof(buf), "dbus set softcenter_arch=%s", "mipsle");
 			else
-				snprintf(buf, sizeof(buf), "dbus set softcenter_arch=mips");
-		} else
+				snprintf(buf, sizeof(buf), "dbus set softcenter_arch=%s", "mips");
+		}else if(!strcmp(uts.machine, "aarch64")){
+			snprintf(buf, sizeof(buf), "dbus set softcenter_arch=%s", "arm64");
+		}else
 			snprintf(buf, sizeof(buf), "dbus set softcenter_arch=%s", uts.machine);
 #if defined(SC_AUTH_DEBUG)
 		printf("%s\n", buf);
@@ -234,9 +163,9 @@ int main(int argc, char **argv)
 			snprintf(cmd, sizeof(cmd), "dbus set softcenter_server_tcode=%s", tcode);
 			if(!strlen(buf) || !is_asuswrt(buf)){
 #if defined(SC_AUTH_DEBUG)
-				printf("dbus set softcenter_server_tcode=NO\n");
+				printf("dbus set softcenter_server_tcode=GB\n");
 #else
-				system("dbus set softcenter_server_tcode=NO");
+				system("dbus set softcenter_server_tcode=GB");
 #endif
 				printf("This device is not supported. see https://blog.paldier.com/categories/firmware/\n");
 			}else if(is_swrt(modelname)){

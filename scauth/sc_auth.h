@@ -1,7 +1,7 @@
 /*
- * Copyright 2021-2023, SWRTdev
- * Copyright 2021-2023, paldier <paldier@hotmail.com>.
- * Copyright 2021-2023, lostlonger<lostlonger.g@gmail.com>.
+ * Copyright 2021-2025, SWRTdev
+ * Copyright 2021-2025, paldier <paldier@hotmail.com>.
+ * Copyright 2021-2025, lostlonger<lostlonger.g@gmail.com>.
  * All Rights Reserved.
  */
 
@@ -10,10 +10,6 @@
 
 struct model_s {
 	char *pid;
-	int model;
-};
-
-struct vendors_s {
 	int model;
 };
 
@@ -67,6 +63,8 @@ enum {
 	SWRT_MODEL_JCGQ20,
 	SWRT_MODEL_360T7,
 	SWRT_MODEL_RAX80,
+	SWRT_MODEL_JDCBE6500,
+	SWRT_MODEL_JDCAX3000,
 	SWRT_MODEL_SWRTMAX
 };
 
@@ -266,6 +264,7 @@ enum {
 	MODEL_XMCR660X,
 	MODEL_JCGQ20,
 	MODEL_360T7,
+	MODEL_JDCAX3000,
 	MODEL_MAX
 };
 
